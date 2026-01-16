@@ -129,3 +129,7 @@ def LoadStaticData(Data):
         Materials[i] = GenMaterial(DICT["Materials"][i])
     for i in DICT["Creatures"].keys():
         Creatures[i] = GenCreature(DICT["Creatures"][i])
+# World data is stored as creature sheets in [WORLD].world/{Beasts|Monsters|NPCS|Players}.data,
+# the seed of the world in [WORLD].world/seed, and the game regenerates the world on demand.
+# Then changes to the world occur and are listed in [WORLD].world/[REGION].data
+# There are 300 regions by 300 regions
