@@ -1,0 +1,6 @@
+.vscode/
+*.world
+__pycache__/
+*.bin
+cruelandunusual/target
+**/.DS_Store
