@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.*;
 import org.lwjgl.opengl.*;
 public class CruelAndUnusual {

@@ -4,13 +4,61 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cruelandusual</groupId>
-    <artifactId>cruelandunsual</artifactId>
+    <groupId>com.cruelandunusual</groupId>
+    <artifactId>cruelandunusual</artifactId>
     <version>CruelAndUnusual-0.1</version>
-
+    <profiles>
+      <profile>
+	<id>amd64-x64</id>
+	<activation>
+	  <os>
+	    <family>unix</family>
+	    <name>linux</name>
+	    <arch>amd64</arch>
+	  </os>
+	</activation>
+	<properties>
+	  <lwjgl.natives>natives-linux</lwjgl.natives>
+	</properties>
+      </profile>
+      <profile>
+	<id>LINUX</id>
+	<activation>
+	  <os>
+	    <family>unix</family>
+	    <name>linux</name>
+	    <arch>!amd64</arch>
+	  </os>
+	</activation>
+	<properties>
+	  <lwjgl.natives>natives-linux-${os.arch}</lwjgl.natives>
+	</properties>
+      </profile>
+      <profile>
+	<id>WINDOWS</id>
+	<activation>
+	  <os>
+	    <family>Windows</family>
+	  </os>
+	</activation>
+	<properties>
+	  <lwjgl.natives>natives-windows</lwjgl.natives>
+	</properties>
+      </profile>
+      <profile>
+	<id>MACOS</id>
+	<activation>
+	  <os>
+	    <family>MacOS</family>
+	  </os>
+	</activation>
+	<properties>
+	  <lwjgl.natives>natives-macos</lwjgl.natives>
+	</properties>
+      </profile>
+    </profiles>
     <properties>
-        <lwjgl.version>3.3.6</lwjgl.version>
-        <lwjgl.natives>natives-${os.name}</lwjgl.natives>
+      <lwjgl.version>3.4.0</lwjgl.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
