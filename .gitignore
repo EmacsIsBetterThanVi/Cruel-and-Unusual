@@ -4,3 +4,10 @@ __pycache__/
 *.bin
 cruelandunusual/target
 **/.DS_Store
+/shelf/
+/workspace.xml
+/queries/
+/dataSources/
+/dataSources.local.xml
+/httpRequests/
+.idea/

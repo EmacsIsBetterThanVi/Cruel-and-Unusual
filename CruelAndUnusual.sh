@@ -1,3 +1,6 @@
 #!/bin/bash
-java -Djava.library.path=~/.m2/repository/org/lwjgl/lwjgl/3.3.4/macos/arm64/org/lwjgl/liblwjgl.dylib 
--XstartOnFirstThread -jar ./cruelandunusual/target/CruelAndUnusual*.jar
+if [[ $(uname) == "Linux" ]]; then
+  java -Djava.library.path=~/.m2/repository/org/lwjgl/lwjgl/3.4.0/ -jar ./cruelandunusual/target/cruelandunusual*.jar
+elif [[ $(uname) == "MacOS" ]]; then
+  java -Djava.library.path=~/.m2/repository/org/lwjgl/lwjgl/3.4.0/ -XstartOnFirstThread -jar ./cruelandunusual/target/cruelandunusual*.jar
+fi
