@@ -14,7 +14,7 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 public class CruelAndUnusual {
     public long window;
-    public boolean menu;
+    public boolean menu=false;
     public void run(){
         // INIT
         GLFWErrorCallback.createPrint(System.err).set();
@@ -22,8 +22,8 @@ public class CruelAndUnusual {
             throw new IllegalStateException("Could not initialize GLFW");
         }
         glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
         window = glfwCreateWindow(720, 600, "Cruel and Unusual", glfwGetPrimaryMonitor(), NULL);
         if (window == NULL) throw new RuntimeException("Could not create window");
