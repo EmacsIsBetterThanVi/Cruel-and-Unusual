@@ -49,7 +49,7 @@
 	<id>MACOS</id>
 	<activation>
 	  <os>
-	    <family>MacOS</family>
+	    <family>mac</family>
 	  </os>
 	</activation>
 	<properties>

@@ -1,12 +1,17 @@
 package com.cruelandunusual;
 
-import java.nio.IntBuffer;
+import java.nio.*;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.*;
 import org.lwjgl.opengl.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryUtil.*;
 public class CruelAndUnusual {
     public long window;
     public boolean menu;
@@ -21,11 +26,11 @@ public class CruelAndUnusual {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         window = glfwCreateWindow(720, 600, "Cruel and Unusual", glfwGetPrimaryMonitor(), NULL);
-        if (window == NULL) throw RuntimeException("Could not create window");
+        if (window == NULL) throw new RuntimeException("Could not create window");
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) menu = ! menu; 
         });
-        try (MemoryStack stack = tstackPush()){
+        try (MemoryStack stack = stackPush()){
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
             glfwGetWindowSize(window, pWidth, pHeight);
@@ -42,7 +47,7 @@ public class CruelAndUnusual {
         while (!glfwWindowShouldClose(window)){
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glfwSwapBuffers(window);
-            glfwPollEvent();
+            glfwPollEvents();
         }
         // QUIT
         glfwFreeCallbacks(window);
