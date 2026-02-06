@@ -11,3 +11,4 @@ cruelandunusual/target
 /dataSources.local.xml
 /httpRequests/
 .idea/
+*.log
