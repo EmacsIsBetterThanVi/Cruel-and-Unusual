@@ -6,7 +6,7 @@
 
     <groupId>com.cruelandunusual</groupId>
     <artifactId>cruelandunusual</artifactId>
-    <version>CruelAndUnusual-0.1</version>
+    <version>CruelAndUnusual</version>
     <profiles>
       <profile>
 	<id>amd64-x64</id>

@@ -8,6 +8,9 @@ public class CruelAndUnusual {
     public static CruelAndUnusualFrontEnd frontEnd;
     public static int MouseX;
     public static int MouseY;
+    public static final int major = 0;
+    public static final int minor = 1;
+    public static final int revision = 0;
     public static int FRAME;
     public static void run(){
         FRAME++;
@@ -18,7 +21,7 @@ public class CruelAndUnusual {
         for (int i=0; i<args.length; i++){
             switch (args[i]){
                 case "version":
-                    System.out.println("0.0.0");
+                    System.out.println(major+"."+minor+"."+revision);
                     System.exit(0);
                 case "headless":
                 case "frontend=none":

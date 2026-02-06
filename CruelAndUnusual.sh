@@ -11,6 +11,7 @@ if [[ $1 == "help" ]]; then
   echo "verbose - Displays the commands being run"
   echo "help - displays this message"
   echo "cleanCrashLogs - Cleans crash logs"
+  echo "clean - Cleans the build directory"
   echo "build - Builds Cruel and Unusual"
   echo "build test - Builds Cruel and Unusual and continues processing commands"
   echo "server {name} - starts the game as a server. Equivalent to headless world {name}"
@@ -28,11 +29,24 @@ if [[ $1 == "cleanCrashLogs" ]]; then
   rm *.log
   shift
 fi
+if [[ $1 == "clean" ]]; then
+  $VERBOSE && echo "Entering build directory"
+  cd cruelandunusual || echo "can not locate build directory"
+  [[ $? == 0 ]] || exit
+  $VERBOSE && echo "mvn clean"
+  mvn package || echo "could not clean build directory"
+  [[ $? == 0 ]] || exit
+  shift
+fi
 if [[ $1 == "build" ]]; then
   $VERBOSE && echo "Entering build directory"
   cd cruelandunusual || echo "can not locate build directory"
+  [[ $? == 0 ]] || exit
   $VERBOSE && echo "mvn package"
   mvn package || echo "build failed"
+  [[ $? == 0 ]] || exit
+  $VERBOSE && echo mv target/cruelandunusual*-jar-with-dependencies.jar target/CruelAndUnusual.jar
+  mv target/cruelandunusual*-jar-with-dependencies.jar target/CruelAndUnusual.jar
   $VERBOSE && echo "Exiting build directory"
   cd ..
   shift
@@ -56,10 +70,11 @@ OPTS="$OPTS $@"
 [[ $1 == "noRun" ]] && exit
 [[ $1 == "DEBUG" ]] && DEBUG=" -Dorg.lwjgl.util.Debug=true"
 $VERBOSE && echo "Starting jar with options: $OPTS"
+[[ ! -f ./cruelandunusual/target/CruelAndUnusual.jar ]] && echo "Program not built" && exit
 if [[ $(uname) == "Linux" ]]; then
-  $VERBOSE && echo "java command:" java  -jar ./cruelandunusual/target/cruelandunusual*-jar-with-dependencies.jar $OPTS
-  java$DEBUG  -jar ./cruelandunusual/target/cruelandunusual*-jar-with-dependencies.jar $OPTS
+  $VERBOSE && echo "java command:" java  -jar ./cruelandunusual/target/CruelAndUnusual.jar $OPTS
+  java$DEBUG  -jar ./cruelandunusual/target/CruelAndUnusual.jar $OPTS
 elif [[ $(uname) == "MacOS" ]]; then
-  $VERBOSE && echo "java command:" java -XstartOnFirstThread -jar ./cruelandunusual/target/cruelandunusual*-jar-with-dependencies.jar $OPTS
-  java  -XstartOnFirstThread -jar ./cruelandunusual/target/cruelandunusual*-jar-with-dependencies.jar $OPTS
+  $VERBOSE && echo "java command:" java -XstartOnFirstThread -jar ./cruelandunusual/target/CruelAndUnusual.jar $OPTS
+  java  -XstartOnFirstThread -jar ./cruelandunusual/target/CruelAndUnusual.jar $OPTS
 fi

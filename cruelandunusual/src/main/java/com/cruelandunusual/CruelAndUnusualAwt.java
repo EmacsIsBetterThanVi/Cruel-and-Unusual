@@ -78,7 +78,7 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
                     {
                         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                             shouldClose = true;
-                        }
+                        } else System.out.println(e.getKeyCode());
                     }
                     break;
                 }
