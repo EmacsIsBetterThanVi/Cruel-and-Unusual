@@ -1,4 +1,4 @@
-package com.cruelandunusual;
+package com.cruelandunusual.FrontEnds;
 
 public interface CruelAndUnusualFrontEnd {
     void run();

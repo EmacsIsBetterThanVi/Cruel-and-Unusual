@@ -12,6 +12,7 @@ if [[ $1 == "help" ]]; then
   echo "help - displays this message"
   echo "cleanCrashLogs - Cleans crash logs"
   echo "clean - Cleans the build directory"
+  echo "update - Fetches the newest sources and automatically builds CruelAndUnusual. Update build is redundant, but safe"
   echo "build - Builds Cruel and Unusual"
   echo "build test - Builds Cruel and Unusual and continues processing commands"
   echo "server {name} - starts the game as a server. Equivalent to headless world {name}"
@@ -31,23 +32,46 @@ if [[ $1 == "cleanCrashLogs" ]]; then
 fi
 if [[ $1 == "clean" ]]; then
   $VERBOSE && echo "Entering build directory"
-  cd cruelandunusual || echo "can not locate build directory"
-  [[ $? == 0 ]] || exit
+  cd cruelandunusual
+  if [[ $? != 0 ]]; then
+       echo "Can not locate build directory"
+       exit
+    fi
   $VERBOSE && echo "mvn clean"
-  mvn package || echo "could not clean build directory"
-  [[ $? == 0 ]] || exit
+  mvn clean
+  if [[ $? != 0 ]]; then
+    echo "Can not locate build directory"
+    exit
+  fi
+  #shellcheck disable=SC2103
+  cd ..
   shift
 fi
+if [[ $1 == "update" ]]; then
+  $VERBOSE && echo "git pull"
+  git pull
+  shift
+  # shellcheck disable=SC2068
+  set -- build $@
+fi
 if [[ $1 == "build" ]]; then
+  [[ $2 == "build" ]] && shift
   $VERBOSE && echo "Entering build directory"
-  cd cruelandunusual || echo "can not locate build directory"
-  [[ $? == 0 ]] || exit
+  cd cruelandunusual
+   if [[ $? != 0 ]]; then
+     echo "Can not locate build directory"
+     exit
+  fi
   $VERBOSE && echo "mvn package"
-  mvn package || echo "build failed"
-  [[ $? == 0 ]] || exit
+  mvn package
+  if [[ $? != 0 ]]; then
+    echo "Build failed"
+    exit
+  fi
   $VERBOSE && echo mv target/cruelandunusual*-jar-with-dependencies.jar target/CruelAndUnusual.jar
   mv target/cruelandunusual*-jar-with-dependencies.jar target/CruelAndUnusual.jar
   $VERBOSE && echo "Exiting build directory"
+  # shellcheck disable=SC2103
   cd ..
   shift
   [[ $1 == "test" ]] || exit;
@@ -66,6 +90,8 @@ if [[ $1 == "server" ]]; then
     shift
   fi
 fi
+
+# shellcheck disable=SC2124
 OPTS="$OPTS $@"
 [[ $1 == "noRun" ]] && exit
 [[ $1 == "DEBUG" ]] && DEBUG=" -Dorg.lwjgl.util.Debug=true"

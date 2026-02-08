@@ -1,12 +1,14 @@
-package com.cruelandunusual;
+package com.cruelandunusual.FrontEnds;
 
 import java.nio.*;
 
-import org.lwjgl.*;
+import com.cruelandunusual.Screen;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import org.lwjgl.opengl.*;
 
+import static com.cruelandunusual.CruelAndUnusual.menu;
+import static com.cruelandunusual.CruelAndUnusual.screen;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -32,7 +34,22 @@ public class CruelAndUnusualLwjgl implements CruelAndUnusualFrontEnd{
         window = glfwCreateWindow(720, 600, "Cruel and Unusual", glfwGetPrimaryMonitor(), NULL);
         if (window == NULL) throw new RuntimeException("Could not create window");
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) CruelAndUnusual.menu = !CruelAndUnusual.menu;
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+                switch (screen) {
+                    case TITLE:
+                        glfwSetWindowShouldClose(window,true);
+                    case OPTIONS:
+                    case WORLD_OPTIONS:
+                        screen = Screen.TITLE_INIT;
+                        break;
+                    case RULES:
+                        screen = Screen.WORLD_OPTIONS_INIT;
+                        break;
+                    case GAME:
+                        menu = !menu;
+                        break;
+                }
+            }
         });
 //        windowBuffer = ByteBuffer.allocate(720*600*3);
 //        windowBuffer.order(ByteOrder.nativeOrder());
@@ -67,13 +84,6 @@ public class CruelAndUnusualLwjgl implements CruelAndUnusualFrontEnd{
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glfwSwapBuffers(window);
             glfwPollEvents();
-            switch (CruelAndUnusual.screen) {
-                case 0:
-                {
-                    if (CruelAndUnusual.menu) glfwSetWindowShouldClose(window, true);
-                }
-                break;
-            }
         }
     }
     @Override

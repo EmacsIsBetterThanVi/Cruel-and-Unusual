@@ -1,4 +1,7 @@
-package com.cruelandunusual;
+package com.cruelandunusual.FrontEnds;
+
+import com.cruelandunusual.CruelAndUnusual;
+import com.cruelandunusual.Screen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,13 +35,9 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
         w.setVisible(true);
         w.setResizable(false);
         px = new PixelCanvas();
-        frameBuffer = new byte[720*600];
-        pallet = new float[256*3];
         w.setLayout(new BorderLayout());
         w.add(px, BorderLayout.CENTER);
-        pallet[0] = 0.9f;
-        pallet[1] = 0.9f;
-        pallet[2] = 0.9f;
+        CruelAndUnusual.resetFrame();
         w.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -73,27 +72,33 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (screen){
-                    case 0:
-                    {
-                        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    switch (screen){
+                        case TITLE:
                             shouldClose = true;
-                        } else System.out.println(e.getKeyCode());
+                            break;
+                        case OPTIONS:
+                        case WORLD_OPTIONS:
+                            screen = Screen.TITLE_INIT;
+                            break;
+                        case RULES:
+                            screen = Screen.WORLD_OPTIONS_INIT;
+                            break;
+                        case GAME:
+                            menu = !menu;
+                            break;
                     }
-                    break;
+                } else {
+                    registerKeyEvent(e.getKeyCode(), KEY_JUST_DOWN);
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+                registerKeyEvent(e.getKeyCode(), KEY_JUST_UP);
             }
         });
-        timer1 = new Timer(1, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                px.repaint();
-            }
-        });
+        timer1 = new Timer(1, e -> px.repaint());
         timer1.start();
     }
 
@@ -101,27 +106,5 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
     public void exit() {
         timer1.stop();
         w.dispose();
-    }
-}
-class PixelCanvas extends Canvas {
-    public Image im;
-    public Graphics g2;
-    public PixelCanvas(){
-        super();
-
-    }
-    @Override
-    public void update(Graphics g){
-        int scale = (int) Math.min(Math.floor(getWidth()/720d), Math.floor(getHeight()/600d));
-        if (scale==0) return;
-        if (g2==null) {
-            im = createImage(720*scale, 600*scale);
-            g2=im.getGraphics();
-        }
-        g.drawImage(im, (getWidth()/2)-360*scale, (getHeight()/2)-300*scale, this);
-        for (int i = 0; i < 720*600; i++) {
-            g2.setColor(new Color(pallet[3*frameBuffer[i]], pallet[3*frameBuffer[i]+1], pallet[3*frameBuffer[i]+2]));
-            g2.fillRect(scale*(i%720), (int)Math.floor(i/720d)*scale, scale, scale);
-        }
     }
 }
