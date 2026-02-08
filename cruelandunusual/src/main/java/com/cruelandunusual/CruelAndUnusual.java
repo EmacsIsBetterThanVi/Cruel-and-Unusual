@@ -2,7 +2,9 @@ package com.cruelandunusual;
 import com.cruelandunusual.Components.*;
 import com.cruelandunusual.FrontEnds.*;
 
-public class CruelAndUnusual {
+import java.awt.*;
+
+public final class CruelAndUnusual {
     // CONSTANTS
     public static final int KEY_UP = 0;
     public static final int KEY_DOWN = 3;
@@ -15,29 +17,35 @@ public class CruelAndUnusual {
     public static boolean menu=false;
     public static int[] frameBuffer;
     public static float[] pallet;
+    public static int[] backCanvas;
+    public static float[] backPallet;
     public static int[] keys; // 00000STT - S=3 DOWN, S=0 UP, S=1 JUST UP, S=2 JUST DOWN. T is the FRAME
     public static Screen screen;
     public static CruelAndUnusualFrontEnd frontEnd;
     public static int FRAME;
     public static CruelScreen SCREEN;
+    public static int mouseX=0;
+    public static int mouseY=0;
     // API METHODS
+    // INPUT API
     // Injects a key event into the buffer. Use KEY_UP, KEY_DOWN, KEY_JUST_DOWN, and KEY_JUST_UP for ks
     public static void registerKeyEvent(int KEYCODE, int ks){
         if (FRAME<60)
             keys[KEYCODE] = (ks << 8) | FRAME;
         else keys[KEYCODE] = (ks << 8);
     }
-    // Resets the pallet and frame buffer for changing screens. The game implements its own mechaniques for this
-    // and thus this method should not be used during the game.
+    // Updates the screen
     public static void resetFrame(){
-        frameBuffer = new int[720*600];
-        pallet = new float[257*3];
-        pallet[0] = 0.9f;
-        pallet[1] = 0.9f;
+        frameBuffer=backCanvas;
+        pallet=backPallet;
+        backCanvas = new int[720*600];
+        backPallet = new float[257*3];
+        backPallet[0] = 0.9f;
+        backPallet[1] = 0.9f;
     }
     // Pixel API(Only use the pixel API for things which are fine running very slowly, otherwise, use images)
     public static void drawPixel(int x, int y, int palletID){
-        frameBuffer[x+(y*720)] = palletID;
+        backCanvas[x+(y*720)] = palletID;
     }
     public static void drawPixel(int x, int y, float red, float green, float blue){
         drawPixel(x, y, handlePallet(red, green, blue));
@@ -47,17 +55,18 @@ public class CruelAndUnusual {
     }
     // Pallet API
     public static int handlePallet(float rf, float gf, float bf) {
-        return handlePallet(rf, gf, bf, pallet);
+        return handlePallet(rf, gf, bf, backPallet);
     }
     public static int handlePallet(int red, int green, int blue){
         float rf = red/255f, gf = green/255f, bf = blue/255f;
-        return handlePallet(rf, gf, bf, pallet);
+        return handlePallet(rf, gf, bf, backPallet);
     }
     public static int handlePallet(int red, int green, int blue, float[] p){
         float rf = red/255f, gf = green/255f, bf = blue/255f;
         return handlePallet(rf, gf, bf, p);
     }
     public static int handlePallet(float rf, float gf, float bf, float[] p){
+        if (rf==0 && gf == 0 && bf == 0) return (p.length/3)-1;
         for (int i = 0; i < (p.length/3)-1; i++) {
             if (p[i*3]==rf && p[i*3+1]==gf && p[i*3+2]==bf) return i;
             else if (p[i*3]==0 && p[i*3+1]==0 && p[i*3+2]==0) {
