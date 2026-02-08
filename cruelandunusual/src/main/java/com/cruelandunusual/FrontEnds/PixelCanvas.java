@@ -8,12 +8,13 @@ import static com.cruelandunusual.CruelAndUnusual.pallet;
 public class PixelCanvas extends Canvas {
     public Image im;
     public Graphics g2;
+    public int scale;
     public PixelCanvas(){
         super();
     }
     @Override
     public void update(Graphics g){
-        int scale = (int) Math.min(Math.floor(getWidth()/720d), Math.floor(getHeight()/600d));
+        scale = (int) Math.min(Math.floor(getWidth()/720d), Math.floor(getHeight()/600d));
         if (scale==0) return;
         if (g2==null) {
             im = createImage(720*scale, 600*scale);

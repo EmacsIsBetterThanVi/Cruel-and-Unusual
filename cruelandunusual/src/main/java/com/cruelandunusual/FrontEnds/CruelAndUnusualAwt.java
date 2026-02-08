@@ -38,20 +38,20 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
         w.setLayout(new BorderLayout());
         w.add(px, BorderLayout.CENTER);
         CruelAndUnusual.resetFrame();
-        w.addMouseListener(new MouseListener() {
+        px.addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
+            public void mouseClicked(MouseEvent e) {}
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                if (e.getButton()>3 || e.getButton()<1) return;
+                registerKeyEvent(e.getButton()+252, KEY_JUST_DOWN);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                if (e.getButton()>3 || e.getButton()<1) return;
+                registerKeyEvent(e.getButton()+252, KEY_JUST_UP);
             }
 
             @Override
@@ -64,11 +64,19 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
 
             }
         });
+        px.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {}
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if(px.scale==0) return;
+                mouseX = (e.getX()-((px.getWidth()/2)-360*px.scale))/px.scale;
+                mouseY = (e.getY()-((px.getHeight()/2)-300*px.scale))/px.scale;
+            }
+        });
         w.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
+            public void keyTyped(KeyEvent e) {}
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -98,7 +106,7 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
                 registerKeyEvent(e.getKeyCode(), KEY_JUST_UP);
             }
         });
-        timer1 = new Timer(1, e -> px.repaint());
+        timer1 = new Timer(1, e -> px.repaint(1));
         timer1.start();
     }
 

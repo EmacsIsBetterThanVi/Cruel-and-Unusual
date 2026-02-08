@@ -3,6 +3,7 @@ package com.cruelandunusual.Components;
 import com.cruelandunusual.CruelAndUnusual;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +48,9 @@ public class CruelImage {
     public int getBackground() {
         return background;
     }
+    public Rectangle getRect(int x, int y){
+        return new Rectangle(x, y, w, h);
+    }
     // Makes the image into a surface.
     public void makeSurface(){
         surfacep=true;
@@ -61,7 +65,7 @@ public class CruelImage {
             for (int x = 0; x < w; x++) {
                 int id = buffer[y * w + x];
                 if (id != background)
-                    CruelAndUnusual.frameBuffer[((yp + y) * 720) + (xp + x)] =
+                    CruelAndUnusual.backCanvas[((yp + y) * 720) + (xp + x)] =
                             CruelAndUnusual.handlePallet(pallet[id*3], pallet[id*3+1], pallet[id*3+2]);
             }
         }
