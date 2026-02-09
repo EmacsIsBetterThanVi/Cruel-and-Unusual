@@ -7,8 +7,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import org.lwjgl.opengl.*;
 
-import static com.cruelandunusual.CruelAndUnusual.menu;
-import static com.cruelandunusual.CruelAndUnusual.screen;
+import static com.cruelandunusual.CruelAndUnusual.*;
+import static com.cruelandunusual.CruelAndUnusual.mp;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -39,9 +39,18 @@ public class CruelAndUnusualLwjgl implements CruelAndUnusualFrontEnd{
                     case TITLE:
                         glfwSetWindowShouldClose(window,true);
                     case OPTIONS:
-                    case WORLD_OPTIONS:
+                    case WORLD_SELECT:
+                    case MULTI_PLAYER:
+                        mp = false;
                         screen = Screen.TITLE_INIT;
                         break;
+                    case CHARACTER_SELECT:
+                    case WORLD_OPTIONS:
+                        if (mp) screen = Screen.MULTI_PLAYER_INIT;
+                        else screen = Screen.WORLD_SELECT_INIT;
+                        break;
+                    case CHARACTER_OPTIONS:
+                        screen = Screen.CHARACTER_SELECT_INIT;
                     case RULES:
                         screen = Screen.WORLD_OPTIONS_INIT;
                         break;
@@ -96,6 +105,11 @@ public class CruelAndUnusualLwjgl implements CruelAndUnusualFrontEnd{
         glfwDestroyWindow(window);
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    @Override
+    public String prompt(String p) {
+        return "";
     }
 //    public void drawPixel(int y, int x, int red, int green, int blue){
 //        if (x>=720) return;

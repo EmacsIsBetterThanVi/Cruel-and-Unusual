@@ -1,8 +1,12 @@
 package com.cruelandunusual;
 import com.cruelandunusual.Components.*;
 import com.cruelandunusual.FrontEnds.*;
+import org.json.JSONObject;
 
-import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public final class CruelAndUnusual {
     // CONSTANTS
@@ -14,6 +18,8 @@ public final class CruelAndUnusual {
     public static final int minor = 1;
     public static final int revision = 0;
     // VARIABLES
+    public static String UUID_NAME;
+    public static boolean mp=false;
     public static boolean menu=false;
     public static int[] frameBuffer;
     public static float[] pallet;
@@ -26,6 +32,7 @@ public final class CruelAndUnusual {
     public static CruelScreen SCREEN;
     public static int mouseX=0;
     public static int mouseY=0;
+    public static JSONObject config;
     // API METHODS
     // INPUT API
     // Injects a key event into the buffer. Use KEY_UP, KEY_DOWN, KEY_JUST_DOWN, and KEY_JUST_UP for ks
@@ -103,7 +110,7 @@ public final class CruelAndUnusual {
         if (FRAME>=60) FRAME=0;
     }
     public static void main(String[] args) {
-        int front=1; // Front end 0 = headless, 1 = awt, 2 = lwjgl
+        int front =0; // Front end 0 = headless, 1 = awt, 2 = lwjgl
         keys = new int[256];
         screen = Screen.TITLE_INIT;
         for (int i=0; i<args.length; i++){
@@ -113,7 +120,7 @@ public final class CruelAndUnusual {
                     System.exit(0);
                 case "headless":
                 case "frontend=none":
-                    front=0;
+                    front =3;
                     break;
                 case "frontend=awt":
                     front = 1;
@@ -123,22 +130,72 @@ public final class CruelAndUnusual {
                     break;
             }
         }
+
         if (front == 2) frontEnd = new CruelAndUnusualLwjgl();
-        if (front == 1) frontEnd = new CruelAndUnusualAwt();
-        if (front == 0) frontEnd = new CruelAndUnusualConsole();
-        ShutdownHook sh = new ShutdownHook();
-        Runtime.getRuntime().addShutdownHook(sh);
+        if (front == 1 || front == 0) frontEnd = new CruelAndUnusualAwt();
+        // AWT is supported no matter what, so we use it for the default font end until the prefered one can be loaded
+        if (front == 3) frontEnd = new CruelAndUnusualConsole();
+        ShutdownHook shutdownHook = new ShutdownHook();
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+        resetFrame();
+        resetFrame();
+        File f = new File(System.getProperty("user.home")+"/.cruelandunusual/");
+        if (!f.exists()){
+            try {
+                UUID_NAME = frontEnd.prompt("Enter a unique player name");
+                //noinspection ResultOfMethodCallIgnored
+                f.mkdirs();
+                FileWriter fw = new FileWriter(f.getAbsolutePath()+"/config");
+                config = new JSONObject();
+                config.put("UUID_NAME", UUID_NAME);
+                buildConfig();
+                fw.write(config.toString());
+                fw.close();
+            } catch (IOException ignored){}
+        } else {
+            try {
+                Scanner fr = new Scanner(new File(f.getAbsolutePath()+"/config"));
+                StringBuilder s = new StringBuilder();
+                while (fr.hasNextLine()){
+                    s.append(fr.nextLine());
+                }
+                fr.close();
+                config = new JSONObject(s.toString());
+                UUID_NAME = config.getString("UUID_NAME");
+                if (config.getInt("major")<major || config.getInt("minor")<minor){
+                    FileWriter fw = new FileWriter(f.getAbsolutePath()+"/config");
+                    buildConfig();
+                    fw.write(config.toString());
+                    fw.close();
+                }
+                if (front == 0){
+                    front = config.getInt("PreferedFrontEnd");
+                    if (front == 2) frontEnd = new CruelAndUnusualLwjgl();
+                    if (front == 1) frontEnd = new CruelAndUnusualAwt();
+                    if (front == 3) frontEnd = new CruelAndUnusualConsole();
+                }
+            } catch (Exception ignored){}
+        }
         System.out.println("INITIALIZING FRONT END: "+frontEnd.toString());
         frontEnd.INIT();
         frontEnd.run();
         System.exit(0);
     }
+    public static void shutdown(){
+        System.out.println("SHUTTING DOWN FRONT END: "+ CruelAndUnusual.frontEnd.toString());
+        CruelAndUnusual.frontEnd.exit();
+        Runtime.getRuntime().halt(0);
+    }
+    public static void buildConfig(){
+        config.put("major", major);
+        config.put("minor", minor);
+        config.putOnce("PreferedFrontEnd", "1");
+        config.putOnce("Fullscreen", "true");
+    }
 }
 class ShutdownHook extends Thread{
     @Override
     public void run() {
-        System.out.println("SHUTTING DOWN FRONT END: "+CruelAndUnusual.frontEnd.toString());
-        CruelAndUnusual.frontEnd.exit();
-        Runtime.getRuntime().halt(0);
+        CruelAndUnusual.shutdown();
     }
 }

@@ -18,4 +18,8 @@ public class CruelAndUnusualConsole implements CruelAndUnusualFrontEnd {
     public void exit() {
 
     }
+    @Override
+    public String prompt(String p) {
+        return "";
+    }
 }
