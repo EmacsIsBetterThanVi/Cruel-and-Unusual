@@ -11,7 +11,7 @@ import java.awt.event.*;
 import static com.cruelandunusual.CruelAndUnusual.*;
 
 public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
-    public PixelCanvas px;
+    public PixelCanvasAwt px;
     public Frame w;
     public Timer timer1;
     public volatile boolean shouldClose;
@@ -69,7 +69,7 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
         }
         w.setVisible(true);
         w.setResizable(false);
-        px = new PixelCanvas();
+        px = new PixelCanvasAwt();
         w.setLayout(new BorderLayout());
         w.add(px, BorderLayout.CENTER);
         CruelAndUnusual.resetFrame();

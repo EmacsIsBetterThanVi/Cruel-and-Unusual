@@ -2,7 +2,6 @@ package com.cruelandunusual;
 import com.cruelandunusual.Components.*;
 import com.cruelandunusual.FrontEnds.*;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,6 +33,14 @@ public final class CruelAndUnusual {
     public static int mouseY=0;
     public static JSONObject config;
     // API METHODS
+    public static UnusualCreature createCreature(UnusualCreature type){
+        try {
+            return (UnusualCreature) (type.getClass().getConstructors()[0].newInstance());
+        } catch (Exception ignored){
+            return null;
+        }
+    }
+
     // INPUT API
     // Injects a key event into the buffer. Use KEY_UP, KEY_DOWN, KEY_JUST_DOWN, and KEY_JUST_UP for ks
     public static void registerKeyEvent(int KEYCODE, int ks){
@@ -50,7 +57,7 @@ public final class CruelAndUnusual {
         backPallet[0] = 0.9f;
         backPallet[1] = 0.9f;
     }
-    // Pixel API(Only use the pixel API for things which are fine running very slowly, otherwise, use images)
+    // Pixel API(Only use the pixel API for things which are fine running very slowly, otherwise, use images, This is mostly here to expose an underlying interface which is simpler than the array)
     public static void drawPixel(int x, int y, int palletID){
         backCanvas[x+(y*720)] = palletID;
     }
@@ -120,6 +127,7 @@ public final class CruelAndUnusual {
                     System.exit(0);
                 case "headless":
                 case "frontend=none":
+                case "frontend=cli":
                     front =3;
                     break;
                 case "frontend=awt":
@@ -168,7 +176,7 @@ public final class CruelAndUnusual {
                     fw.write(config.toString());
                     fw.close();
                 }
-                if (front == 0){
+                if (front == 0){ // Only load prefered front end if a specific one was not provided
                     front = config.getInt("PreferedFrontEnd");
                     if (front == 2) frontEnd = new CruelAndUnusualLwjgl();
                     if (front == 1) frontEnd = new CruelAndUnusualAwt();

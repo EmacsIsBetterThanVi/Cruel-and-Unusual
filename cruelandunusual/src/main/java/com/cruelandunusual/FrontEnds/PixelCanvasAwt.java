@@ -5,11 +5,11 @@ import java.awt.*;
 import static com.cruelandunusual.CruelAndUnusual.frameBuffer;
 import static com.cruelandunusual.CruelAndUnusual.pallet;
 
-public class PixelCanvas extends Canvas {
+public class PixelCanvasAwt extends Canvas {
     public Image im;
     public Graphics g2;
     public int scale;
-    public PixelCanvas(){
+    public PixelCanvasAwt(){
         super();
     }
     @Override
