@@ -15,7 +15,7 @@ public final class CruelAndUnusual {
     public static final int KEY_JUST_UP = 1;
     public static final int major = 0;
     public static final int minor = 1;
-    public static final int revision = 0;
+    public static final int revision = 5;
     // VARIABLES
     public static String UUID_NAME;
     public static boolean mp=false;

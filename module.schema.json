@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "module.schema.json",
+  "title": "Module",
+  "description": "A Cruel and Unusual Module",
+  "type": "object",
+  "properties": {
+    "modName": {
+      "description": "The display name of the module",
+      "type": "string"
+    },
+    "version":{
+      "description": "The version string of the module",
+      "type": "string"
+    },
+    "modAuthor": {
+      "description": "The display name of the module author",
+      "type": "string"
+    },
+    "modDescription": {
+      "description": "The description of the module",
+      "type": "string"
+    },
+    "modDependencies": {
+      "description": "The modules the module requires to work",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the module(Not the display name)",
+            "type": "string"
+          },
+          "DisplayName": {
+            "description": "The display name of the module",
+            "type": "string"
+          },
+          "version": {
+            "description": "The version string of the module",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "keyCallbacks": {
+      "description": "A list of all Key Callbacks the module needs by class",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+        }
+      }
+    },
+    "creatureTypes": {
+      "description": "A list of all Creature Types the module contains by class",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "shapes": {
+      "description": "A list of all shapes the module contains by class",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "materials": {
+      "description": "A list of all materials the module contains by class",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["modAuthor", "modDescription", "modName", "version"]
+}

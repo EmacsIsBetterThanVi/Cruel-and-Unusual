@@ -1,5 +1,19 @@
 #!/bin/bash
 VERBOSE=false
+# these commands should not be used except by developers
+if [[ $1 == "PomVersion" ]]; then
+  grep "<version>" pom.xml
+  shift
+fi
+if [[ $1 == "UpdateVersion" ]]; then
+  sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" pom.xml
+  sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" cruelandunusual/pom.xml
+  sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" morkborgrules/pom.xml
+  sed -i "s/int major = $2/int major = $5/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
+  sed -i "s/int minor = $3/int minor = $6/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
+  sed -i "s/int revision = $4/int revision = $7/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
+  exit
+fi
 if [[ $1 == "verbose" ]]; then
   VERBOSE=true
   shift

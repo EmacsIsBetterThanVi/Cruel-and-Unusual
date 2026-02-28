@@ -4,7 +4,6 @@ import com.cruelandunusual.API.ModLoader;
 import org.json.JSONObject;
 
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 public abstract class TortureMod {
     private final ActionListener[] keyCallbacks;

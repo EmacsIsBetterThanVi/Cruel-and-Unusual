@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.cruelandunusual</groupId>
         <artifactId>cruelandunusualfull</artifactId>
-        <version>1.0</version>
+        <version>0.1.5</version>
     </parent>
     <artifactId>cruelandunusual</artifactId>
-    <version>CruelAndUnusual</version>
     <profiles>
       <profile>
 	<id>amd64-x64</id>
@@ -98,11 +97,13 @@
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
+            <!--suppress UnresolvedMavenProperty -->
             <classifier>${lwjgl.natives}</classifier>
         </dependency>
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-glfw</artifactId>
+            <!--suppress UnresolvedMavenProperty -->
             <classifier>${lwjgl.natives}</classifier>
         </dependency>
         <dependency>
