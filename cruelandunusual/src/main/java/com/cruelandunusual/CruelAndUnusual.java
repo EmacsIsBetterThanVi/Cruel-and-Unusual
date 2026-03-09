@@ -1,4 +1,5 @@
 package com.cruelandunusual;
+import com.cruelandunusual.API.ModLoader;
 import com.cruelandunusual.Components.*;
 import com.cruelandunusual.FrontEnds.*;
 import org.json.JSONObject;
@@ -7,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static com.cruelandunusual.API.PALLET.handlePallet;
+
 public final class CruelAndUnusual {
     // CONSTANTS
     public static final int KEY_UP = 0;
@@ -14,8 +17,8 @@ public final class CruelAndUnusual {
     public static final int KEY_JUST_DOWN = 2;
     public static final int KEY_JUST_UP = 1;
     public static final int major = 0;
-    public static final int minor = 1;
-    public static final int revision = 5;
+    public static final int minor = 2;
+    public static final int revision = 0;
     // VARIABLES
     public static String UUID_NAME;
     public static boolean mp=false;
@@ -32,6 +35,7 @@ public final class CruelAndUnusual {
     public static int mouseX=0;
     public static int mouseY=0;
     public static JSONObject config;
+    public static ModLoader systemModLoader;
     // API METHODS
     public static UnusualCreature createCreature(UnusualCreature type){
         try {
@@ -67,44 +71,30 @@ public final class CruelAndUnusual {
     public static void drawPixel(int x, int y, int red, int green, int blue){
         drawPixel(x, y, handlePallet(red, green, blue));
     }
-    // Pallet API
-    public static int handlePallet(float rf, float gf, float bf) {
-        return handlePallet(rf, gf, bf, backPallet);
-    }
-    public static int handlePallet(int red, int green, int blue){
-        float rf = red/255f, gf = green/255f, bf = blue/255f;
-        return handlePallet(rf, gf, bf, backPallet);
-    }
-    public static int handlePallet(int red, int green, int blue, float[] p){
-        float rf = red/255f, gf = green/255f, bf = blue/255f;
-        return handlePallet(rf, gf, bf, p);
-    }
-    public static int handlePallet(float rf, float gf, float bf, float[] p){
-        if (rf==0 && gf == 0 && bf == 0) return (p.length/3)-1;
-        for (int i = 0; i < (p.length/3)-1; i++) {
-            if (p[i*3]==rf && p[i*3+1]==gf && p[i*3+2]==bf) return i;
-            else if (p[i*3]==0 && p[i*3+1]==0 && p[i*3+2]==0) {
-                p[i*3]=rf;
-                p[i*3+1]=gf;
-                p[i*3+2]=bf;
-                return i;
-            }
-        }
-        return (p.length/3)-1; // Pallet error, always displays as black, use this for true black
-    }
     // END API SECTION
     public static void run(){
-        // It is possible for a keystroke to miss its update, so we check both the previous and the frame before
         switch (screen){
             case TITLE_INIT:
                 resetFrame();
-                SCREEN = new TitleMenu(SCREEN);
-                screen = Screen.TITLE;
+                boolean titleCreated = false;
+                for(TortureMod tm: systemModLoader.getMods()){
+                    try {
+                        SCREEN = tm.getTitle(SCREEN);
+                        screen = Screen.TITLE;
+                        titleCreated=true;
+                        break;
+                    } catch (Exception ignored) {}
+                }
+                if (!titleCreated) {
+                    SCREEN = new TitleMenu(SCREEN);
+                    screen = Screen.TITLE;
+                }
                 break;
             case TITLE:
                 SCREEN.run();
                 break;
         }
+        // It is possible for a keystroke to miss its update, so we check both the previous and the frame before
         for (int i = 0; i < 256; i++) {
             if (keys[i] == ((KEY_JUST_DOWN << 8) | (FRAME-1)) || keys[i] == ((KEY_JUST_DOWN << 8) | (FRAME-2))){
                 keys[i] = (KEY_DOWN << 8) | FRAME;
@@ -186,6 +176,13 @@ public final class CruelAndUnusual {
         }
         System.out.println("INITIALIZING FRONT END: "+frontEnd.toString());
         frontEnd.INIT();
+        System.out.println("Performing Inital Mod Loading");
+        f = new File(System.getProperty("user.home")+"/.cruelandunusual/mods");
+        if (!f.exists()) f.mkdir();
+        systemModLoader = new ModLoader(f.getAbsolutePath());
+        for (String s : f.list()) {
+            System.out.println(s);
+        }
         frontEnd.run();
         System.exit(0);
     }

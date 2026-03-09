@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.cruelandunusual.API.PALLET.handlePallet;
+
 public class CruelImage {
     public int[] buffer;
     public float[] pallet;
@@ -26,7 +28,7 @@ public class CruelImage {
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 int c = img.getRGB(x, y);
-                buffer[y * w + x] = CruelAndUnusual.handlePallet((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, pallet);
+                buffer[y * w + x] = handlePallet((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, pallet);
             }
         }
     }
@@ -40,7 +42,7 @@ public class CruelImage {
         return h;
     }
     public void setBackground(float red, float green, float blue) {
-        this.background = CruelAndUnusual.handlePallet(red, green, blue, pallet);
+        this.background = handlePallet(red, green, blue, pallet);
     }
     public void setBackground(int background) {
         this.background = background;
@@ -66,7 +68,7 @@ public class CruelImage {
                 int id = buffer[y * w + x];
                 if (id != background)
                     CruelAndUnusual.backCanvas[((yp + y) * 720) + (xp + x)] =
-                            CruelAndUnusual.handlePallet(pallet[id*3], pallet[id*3+1], pallet[id*3+2]);
+                            handlePallet(pallet[id*3], pallet[id*3+1], pallet[id*3+2]);
             }
         }
     }

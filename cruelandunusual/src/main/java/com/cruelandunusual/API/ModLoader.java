@@ -12,15 +12,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public final class ModLoader {
-    private ArrayList<TortureMod> mods;
-    private ArrayList<ActionListener> keyCallbacks;
-    private ArrayList<UnusualCreature> creatures;
-    private ArrayList<UnusualCreature> creatureTypes;
-    private ArrayList<Shape> shapes;
-    private ArrayList<Material> materials;
+    private final ArrayList<TortureMod> mods;
+    private final ArrayList<ActionListener> keyCallbacks;
+//    private ArrayList<UnusualCreature> creatures;
+    private final ArrayList<UnusualCreature> creatureTypes;
+    private final ArrayList<Shape> shapes;
+    private final ArrayList<Material> materials;
     public final String modBasePath;
 
     public ModLoader(String modBasePath) {
+        keyCallbacks = new ArrayList<>();
+        creatureTypes = new ArrayList<>();
+        shapes = new ArrayList<>();
+        materials = new ArrayList<>();
+        mods = new ArrayList<>();
         this.modBasePath = modBasePath;
     }
 
@@ -34,7 +39,7 @@ public final class ModLoader {
         mods.add(mod);
     }
     public Class loadTitle(TortureMod mod){
-        return loadClass(mod.getPath(), mod.getPackage());
+        return loadClass(mod.getPath(), mod.getPackage()+".TitleScreen");
     }
     private Class loadClass(String ModPath, String className){
         try {
@@ -90,20 +95,29 @@ public final class ModLoader {
         return creatureTypes.indexOf(creature);
     }
     public boolean loadMod(String name){
+        TortureMod tm = null;
         try {
-            Scanner fr = new Scanner(new File(modBasePath + name + "/" + "module.json"));
+            Scanner fr = new Scanner(new File(modBasePath + name + "/module.json"));
             StringBuilder s = new StringBuilder();
             while (fr.hasNextLine()) {
                 s.append(fr.nextLine());
             }
             fr.close();
             JSONObject jsonObject = new JSONObject(s.toString());
-            TortureMod tm = ((TortureMod) loadClass(modBasePath + name, name + "." + name).getDeclaredConstructors()[0].newInstance(this, jsonObject, modBasePath + name + "/", name));
+            tm = ((TortureMod) loadClass(modBasePath + name, name + "." + name).getDeclaredConstructors()[0].newInstance(this, jsonObject, modBasePath + name + "/", name));
+        } catch (Exception ignored){}
+        try {
             if (tm != null) {
                 tm.init();
                 return true;
             }
-        } catch (Exception ignored){}
-        return false;
+            return false;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    public TortureMod[] getMods() {
+        return mods.toArray(new TortureMod[0]);
     }
 }

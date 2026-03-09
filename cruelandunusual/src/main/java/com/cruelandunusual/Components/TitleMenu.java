@@ -6,6 +6,8 @@ import com.cruelandunusual.Screen;
 
 import java.io.IOException;
 
+import static com.cruelandunusual.API.PALLET.handlePallet;
+
 public class TitleMenu implements CruelScreen{
     public CruelImage MorkBorgLogo;
     public UnusualFont font;
@@ -25,22 +27,22 @@ public class TitleMenu implements CruelScreen{
         MorkBorgLogo.blit(60, 100);
         font.write(20, 10, "Cruel and Unusual", 256, 5);
         if (MOUSE.inRect(font.getRectC(360, 310, "Single Player"))){
-            font.writeC(360, 310, "Single Player", CruelAndUnusual.handlePallet(255, 0, 0));
+            font.writeC(360, 310, "Single Player", handlePallet(255, 0, 0));
             if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.WORLD_SELECT_INIT;
         }
         else font.writeC(360, 310, "Single Player", 256);
         if (MOUSE.inRect(font.getRectC(360, 350, "Multi Player"))) {
-            font.writeC(360, 350, "Multi Player", CruelAndUnusual.handlePallet(255, 0, 0));
+            font.writeC(360, 350, "Multi Player", handlePallet(255, 0, 0));
             if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.MULTI_PLAYER_INIT;
         }
         else font.writeC(360, 350, "Multi Player", 256);
         if (MOUSE.inRect(font.getRectC(360, 390, "Options"))) {
-            font.writeC(360, 390, "Options", CruelAndUnusual.handlePallet(255, 0, 0));
+            font.writeC(360, 390, "Options", handlePallet(255, 0, 0));
             if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.OPTIONS_INIT;
         }
         else font.writeC(360, 390, "Options", 256);
         if (MOUSE.inRect(font.getRectC(360, 430, "Exit"))){
-            font.writeC(360, 430, "Exit", CruelAndUnusual.handlePallet(255, 0, 0));
+            font.writeC(360, 430, "Exit", handlePallet(255, 0, 0));
             if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.shutdown();
         }
         else font.writeC(360, 430, "Exit", 256);

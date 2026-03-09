@@ -16,10 +16,16 @@ public abstract class TortureMod {
     private final String packagePath;
     private final String packageName;
     public TortureMod(ModLoader ml, JSONObject info, String packagePath, String packageName) {
+        Class titleClass;
         modLoader = ml;
         this.packagePath = packagePath;
         this.packageName = packageName;
-        title = ml.loadTitle(this);
+        try {
+            titleClass = ml.loadTitle(this);
+        } catch (Exception e){
+            titleClass = null;
+        }
+        title = titleClass;
         keyCallbacks = new ActionListener[info.getJSONArray("keyCallbacks").length()];
         creatureTypes = new UnusualCreature[info.getJSONArray("creatureTypes").length()];
         materials = new Material[info.getJSONArray("materials").length()];
@@ -46,9 +52,9 @@ public abstract class TortureMod {
     public final Material[] getMaterials() {
         return materials;
     }
-    public final CruelScreen getTitle(){
+    public final CruelScreen getTitle(CruelScreen SCREEN){
         try {
-            return ((CruelScreen) title.getDeclaredConstructors()[0].newInstance());
+            return ((CruelScreen) title.getDeclaredConstructors()[0].newInstance(SCREEN));
         } catch (Exception ignored){
             return null;
         }

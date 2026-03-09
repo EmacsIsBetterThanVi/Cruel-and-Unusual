@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.cruelandunusual</groupId>
         <artifactId>cruelandunusualfull</artifactId>
-        <version>0.1.5</version>
+        <version>0.2.0</version>
     </parent>
     <artifactId>morkborgrules</artifactId>
 
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.cruelandunusual</groupId>
             <artifactId>cruelandunusual</artifactId>
-            <version>0.1.5</version>
+            <version>0.2.0</version>
         </dependency>
     </dependencies>
 
