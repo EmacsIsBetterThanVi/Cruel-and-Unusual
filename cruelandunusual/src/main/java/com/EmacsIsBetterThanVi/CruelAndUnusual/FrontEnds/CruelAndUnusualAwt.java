@@ -1,14 +1,14 @@
-package com.cruelandunusual.FrontEnds;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
-import com.cruelandunusual.CruelAndUnusual;
-import com.cruelandunusual.Screen;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 
-import static com.cruelandunusual.CruelAndUnusual.*;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.*;
 
 public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
     public PixelCanvasAwt px;

@@ -1,6 +1,6 @@
-package com.cruelandunusual.API;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.API;
 
-import static com.cruelandunusual.CruelAndUnusual.*;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.*;
 
 /**
  * KEYS is inteanded to function as an Enum for key code constants.

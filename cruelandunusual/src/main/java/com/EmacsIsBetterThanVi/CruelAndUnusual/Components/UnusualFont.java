@@ -1,6 +1,6 @@
-package com.cruelandunusual.Components;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.Components;
 
-import com.cruelandunusual.CruelAndUnusual;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

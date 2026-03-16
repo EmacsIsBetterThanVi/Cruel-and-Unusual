@@ -1,9 +1,9 @@
-package com.cruelandunusual.FrontEnds;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
 import java.awt.*;
 
-import static com.cruelandunusual.CruelAndUnusual.frameBuffer;
-import static com.cruelandunusual.CruelAndUnusual.pallet;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.frameBuffer;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.pallet;
 
 public class PixelCanvasAwt extends Canvas {
     public Image im;

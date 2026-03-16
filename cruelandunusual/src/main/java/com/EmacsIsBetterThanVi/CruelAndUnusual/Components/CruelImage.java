@@ -1,6 +1,6 @@
-package com.cruelandunusual.Components;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.Components;
 
-import com.cruelandunusual.CruelAndUnusual;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-import static com.cruelandunusual.API.PALLET.handlePallet;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.API.PALLET.handlePallet;
 
 public class CruelImage {
     public int[] buffer;

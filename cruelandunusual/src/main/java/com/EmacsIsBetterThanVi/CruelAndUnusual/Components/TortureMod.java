@@ -1,6 +1,6 @@
-package com.cruelandunusual.Components;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.Components;
 
-import com.cruelandunusual.API.ModLoader;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.API.ModLoader;
 import org.json.JSONObject;
 
 import java.awt.event.ActionListener;

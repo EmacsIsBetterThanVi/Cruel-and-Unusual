@@ -1,4 +1,4 @@
-package com.cruelandunusual.FrontEnds;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
 public class CruelAndUnusualConsole implements CruelAndUnusualFrontEnd {
     @Override

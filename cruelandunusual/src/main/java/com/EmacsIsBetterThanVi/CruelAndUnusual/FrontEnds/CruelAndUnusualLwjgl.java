@@ -1,14 +1,14 @@
-package com.cruelandunusual.FrontEnds;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
 import java.nio.*;
 
-import com.cruelandunusual.Screen;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Screen;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import org.lwjgl.opengl.*;
 
-import static com.cruelandunusual.CruelAndUnusual.*;
-import static com.cruelandunusual.CruelAndUnusual.mp;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.*;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.mp;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;

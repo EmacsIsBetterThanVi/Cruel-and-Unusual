@@ -1,14 +1,22 @@
-package com.cruelandunusual;
-import com.cruelandunusual.API.ModLoader;
-import com.cruelandunusual.Components.*;
-import com.cruelandunusual.FrontEnds.*;
+package com.EmacsIsBetterThanVi.CruelAndUnusual;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.API.ModLoader;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.CruelScreen;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.TitleMenu;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.TortureMod;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.UnusualCreature;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualAwt;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualConsole;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualFrontEnd;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualLwjgl;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.*;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.*;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.cruelandunusual.API.PALLET.handlePallet;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.API.PALLET.handlePallet;
 
 public final class CruelAndUnusual {
     // CONSTANTS

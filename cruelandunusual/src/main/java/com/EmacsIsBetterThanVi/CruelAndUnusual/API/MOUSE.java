@@ -1,10 +1,10 @@
-package com.cruelandunusual.API;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.API;
 
 import java.awt.*;
 
-import static com.cruelandunusual.CruelAndUnusual.*;
-import static com.cruelandunusual.CruelAndUnusual.KEY_JUST_UP;
-import static com.cruelandunusual.CruelAndUnusual.keys;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.*;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.KEY_JUST_UP;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.keys;
 
 public final class MOUSE {
     public static final int LEFT_MOUSE = 1;

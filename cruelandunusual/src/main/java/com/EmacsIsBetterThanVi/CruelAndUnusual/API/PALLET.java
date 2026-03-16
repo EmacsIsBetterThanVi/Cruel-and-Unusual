@@ -1,6 +1,6 @@
-package com.cruelandunusual.API;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.API;
 
-import static com.cruelandunusual.CruelAndUnusual.backPallet;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.backPallet;
 
 public final class PALLET {
     public static int handlePallet(float rf, float gf, float bf) {

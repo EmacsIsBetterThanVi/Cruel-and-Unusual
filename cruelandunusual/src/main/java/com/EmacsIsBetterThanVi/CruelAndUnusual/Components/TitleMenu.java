@@ -1,17 +1,17 @@
-package com.cruelandunusual.Components;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.Components;
 
-import com.cruelandunusual.API.MOUSE;
-import com.cruelandunusual.CruelAndUnusual;
-import com.cruelandunusual.Screen;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.API.MOUSE;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Screen;
 
 import java.io.IOException;
 
-import static com.cruelandunusual.API.PALLET.handlePallet;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.API.PALLET.handlePallet;
 
 public class TitleMenu implements CruelScreen{
     public CruelImage MorkBorgLogo;
     public UnusualFont font;
-    public <T> TitleMenu(CruelScreen cs){
+    public TitleMenu(CruelScreen cs){
         try {cs.shutdown();} catch (Exception ignored){}// Deletes the old screen
         try {
             MorkBorgLogo = new CruelImage(this.getClass().getClassLoader().getResource("Title/Icon.png"));

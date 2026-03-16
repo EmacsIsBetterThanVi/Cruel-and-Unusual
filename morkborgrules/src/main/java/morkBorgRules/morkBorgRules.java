@@ -1,7 +1,7 @@
 package morkBorgRules;
 
-import com.cruelandunusual.API.*;
-import com.cruelandunusual.Components.TortureMod;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.API.ModLoader;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.TortureMod;
 import org.json.JSONObject;
 
 public class morkBorgRules extends TortureMod {

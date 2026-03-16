@@ -1,6 +1,10 @@
-package com.cruelandunusual.API;
+package com.EmacsIsBetterThanVi.CruelAndUnusual.API;
 
-import com.cruelandunusual.Components.*;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.Material;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.Shape;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.TortureMod;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.UnusualCreature;
+import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.*;
 import org.json.JSONObject;
 
 import java.awt.event.ActionListener;

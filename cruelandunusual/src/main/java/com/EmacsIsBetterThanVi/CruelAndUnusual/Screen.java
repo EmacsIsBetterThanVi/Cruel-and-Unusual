@@ -1,4 +1,4 @@
-package com.cruelandunusual;
+package com.EmacsIsBetterThanVi.CruelAndUnusual;
 
 public enum Screen {
     TITLE_INIT,
