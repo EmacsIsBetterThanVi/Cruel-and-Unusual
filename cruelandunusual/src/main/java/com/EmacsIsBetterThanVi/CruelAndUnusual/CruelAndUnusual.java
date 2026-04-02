@@ -145,7 +145,7 @@ public final class CruelAndUnusual {
         Runtime.getRuntime().addShutdownHook(shutdownHook);
         resetFrame();
         resetFrame();
-        File f = new File(System.getProperty("user.home")+"/.cruelandunusual/");
+        File f = new File(System.getProperty("user.home")+"/.emacsisbetterthanvi/cruelandunusual/");
         if (!f.exists()){
             try {
                 UUID_NAME = frontEnd.prompt("Enter a unique player name");
@@ -185,7 +185,7 @@ public final class CruelAndUnusual {
         System.out.println("INITIALIZING FRONT END: "+frontEnd.toString());
         frontEnd.INIT();
         System.out.println("Performing Inital Mod Loading");
-        f = new File(System.getProperty("user.home")+"/.cruelandunusual/mods");
+        f = new File(System.getProperty("user.home")+"/.emacsisbetterthanvi/cruelandunusual/mods");
         if (!f.exists()) f.mkdir();
         systemModLoader = new ModLoader(f.getAbsolutePath());
         for (String s : f.list()) {
