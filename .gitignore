@@ -12,3 +12,7 @@ cruelandunusual/target
 /httpRequests/
 .idea/
 *.log
+/cruelandunusual/lib/com/EmacsIsBetterThanVi/AccountLib/current/AccountLib-current.jar
+/AccountLib-current.jar
+/cruelandunusual/lib/com/EmacsIsBetterThanVi/AccountLib/current/AccountLib-current.pom
+/cruelandunusual/lib/com/EmacsIsBetterThanVi/AccountLib/maven-metadata-local.xml

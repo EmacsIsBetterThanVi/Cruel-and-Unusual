@@ -10,10 +10,14 @@ import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualFrontEnd
 import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.CruelAndUnusualLwjgl;
 import com.EmacsIsBetterThanVi.CruelAndUnusual.Components.*;
 import com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds.*;
+import com.EmacsIsBetterThanVi.AccountLib;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static com.EmacsIsBetterThanVi.CruelAndUnusual.API.PALLET.handlePallet;
@@ -25,7 +29,7 @@ public final class CruelAndUnusual {
     public static final int KEY_JUST_DOWN = 2;
     public static final int KEY_JUST_UP = 1;
     public static final int major = 0;
-    public static final int minor = 2;
+    public static final int minor = 3;
     public static final int revision = 0;
     // VARIABLES
     public static String UUID_NAME;
@@ -43,6 +47,7 @@ public final class CruelAndUnusual {
     public static int mouseX=0;
     public static int mouseY=0;
     public static JSONObject config;
+    public static Map<TortureMod, List<JSONObject>> options; // <Mod, List<Option>>
     public static ModLoader systemModLoader;
     // API METHODS
     public static UnusualCreature createCreature(UnusualCreature type){
@@ -98,7 +103,18 @@ public final class CruelAndUnusual {
                     screen = Screen.TITLE;
                 }
                 break;
-            case TITLE:
+            case OPTIONS_INIT:
+                resetFrame();
+                options = new HashMap<>();
+                for (TortureMod tm: systemModLoader.getMods()){
+                    try {
+                        options.put(tm, tm.getOptions());
+                    } catch (Exception ignored) {}
+                }
+                SCREEN = new OptionsMenu(SCREEN);
+                screen = Screen.OPTIONS;
+                break;
+            default:
                 SCREEN.run();
                 break;
         }
@@ -148,7 +164,7 @@ public final class CruelAndUnusual {
         File f = new File(System.getProperty("user.home")+"/.emacsisbetterthanvi/cruelandunusual/");
         if (!f.exists()){
             try {
-                UUID_NAME = frontEnd.prompt("Enter a unique player name");
+                UUID_NAME = frontEnd.prompt("Username");
                 //noinspection ResultOfMethodCallIgnored
                 f.mkdirs();
                 FileWriter fw = new FileWriter(f.getAbsolutePath()+"/config");
@@ -157,7 +173,10 @@ public final class CruelAndUnusual {
                 buildConfig();
                 fw.write(config.toString());
                 fw.close();
-            } catch (IOException ignored){}
+            } catch (IOException ignored){
+                System.err.println("Could not create config");
+                System.exit(1);
+            }
         } else {
             try {
                 Scanner fr = new Scanner(new File(f.getAbsolutePath()+"/config"));
@@ -180,14 +199,48 @@ public final class CruelAndUnusual {
                     if (front == 1) frontEnd = new CruelAndUnusualAwt();
                     if (front == 3) frontEnd = new CruelAndUnusualConsole();
                 }
-            } catch (Exception ignored){}
+            } catch (Exception ignored){
+                config = new JSONObject();
+                UUID_NAME = frontEnd.prompt("Username");
+                config.put("UUID_NAME", UUID_NAME);
+                buildConfig();
+            }
+        }
+        if (config.getBoolean("UseAccountLib")) {
+            try {
+                AccountLib.connect();
+                String password = frontEnd.prompt("Password", true);
+                AccountLib.login(UUID_NAME, password);
+            } catch(Throwable t) {
+                for(; t != null; t = t.getCause()) {
+                    System.err.println(t);
+                    for(StackTraceElement e: t.getStackTrace())
+                        System.err.println("\tat "+e);
+                }
+                config.put("UseAccountLib", false);
+            }
         }
         System.out.println("INITIALIZING FRONT END: "+frontEnd.toString());
         frontEnd.INIT();
-        System.out.println("Performing Inital Mod Loading");
+        System.out.println("Performing Initial Mod Loading");
         f = new File(System.getProperty("user.home")+"/.emacsisbetterthanvi/cruelandunusual/mods");
         if (!f.exists()) f.mkdir();
         systemModLoader = new ModLoader(f.getAbsolutePath());
+        try {
+            Scanner fr = new Scanner(systemModLoader.getClass().getClassLoader().getResourceAsStream("module.json"));
+            StringBuilder s = new StringBuilder();
+            while (fr.hasNextLine()){
+                s.append(fr.nextLine());
+            }
+            fr.close();
+            JSONObject obj = new JSONObject(s.toString());
+            TortureMod tm = new jsonTortureMod(systemModLoader, obj, "", "");
+            tm.init();
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+            System.err.println("Could not initialize core module");
+            System.exit(1);
+        }
         for (String s : f.list()) {
             System.out.println(s);
         }
@@ -203,7 +256,8 @@ public final class CruelAndUnusual {
         config.put("major", major);
         config.put("minor", minor);
         config.putOnce("PreferedFrontEnd", "1");
-        config.putOnce("Fullscreen", "true");
+        config.putOnce("Fullscreen", true);
+        config.putOnce("UseAccountLib", false);
     }
 }
 class ShutdownHook extends Thread{

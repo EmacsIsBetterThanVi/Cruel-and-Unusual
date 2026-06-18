@@ -26,24 +26,24 @@ public class TitleMenu implements CruelScreen{
         CruelAndUnusual.resetFrame();
         MorkBorgLogo.blit(60, 100);
         font.write(20, 10, "Cruel and Unusual", 256, 5);
-        if (MOUSE.inRect(font.getRectC(360, 310, "Single Player"))){
+        if (MOUSE.inRect(font.getRectC(360, 310, "Single Player"))) {
             font.writeC(360, 310, "Single Player", handlePallet(255, 0, 0));
-            if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.WORLD_SELECT_INIT;
+            if (MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.WORLD_SELECT_INIT;
         }
         else font.writeC(360, 310, "Single Player", 256);
         if (MOUSE.inRect(font.getRectC(360, 350, "Multi Player"))) {
             font.writeC(360, 350, "Multi Player", handlePallet(255, 0, 0));
-            if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.MULTI_PLAYER_INIT;
+            if (MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.MULTI_PLAYER_INIT;
         }
         else font.writeC(360, 350, "Multi Player", 256);
         if (MOUSE.inRect(font.getRectC(360, 390, "Options"))) {
             font.writeC(360, 390, "Options", handlePallet(255, 0, 0));
-            if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.OPTIONS_INIT;
+            if (MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.screen = Screen.OPTIONS_INIT;
         }
         else font.writeC(360, 390, "Options", 256);
         if (MOUSE.inRect(font.getRectC(360, 430, "Exit"))){
             font.writeC(360, 430, "Exit", handlePallet(255, 0, 0));
-            if (MOUSE.isMouseDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.shutdown();
+            if (MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)) CruelAndUnusual.shutdown();
         }
         else font.writeC(360, 430, "Exit", 256);
     }

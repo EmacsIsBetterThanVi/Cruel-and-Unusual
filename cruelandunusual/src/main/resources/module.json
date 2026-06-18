@@ -1,0 +1,34 @@
+{
+  "modAuthor": "EmacsIsBetterThanVi",
+  "modDescription": "Core functionality",
+  "modName": "Core",
+  "version": "1.0.0",
+  "options": [
+    {
+      "name": "Fullscreen",
+      "TYPE": "bool",
+      "key": "/Fullscreen"
+    },
+    {
+      "name": "Enable AccountLib",
+      "TYPE": "bool",
+      "key": "/UseAccountLib"
+    },
+    {
+      "name": "Username",
+      "TYPE": "string",
+      "key": "/UUID_NAME"
+    },
+    {
+      "name": "Preferred Front End",
+      "TYPE": "enum",
+      "key": "/PreferedFrontEnd",
+      "values": {
+        "TYPE": "int",
+        "CLI": 3,
+        "LWJGL": 2,
+        "AWT": 1
+      }
+    }
+  ]
+}

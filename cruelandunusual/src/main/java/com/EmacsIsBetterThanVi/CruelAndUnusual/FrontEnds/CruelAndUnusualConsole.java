@@ -20,6 +20,15 @@ public class CruelAndUnusualConsole implements CruelAndUnusualFrontEnd {
     }
     @Override
     public String prompt(String p) {
-        return "";
+        return prompt(p, false);
+    }
+    public String prompt(String p, boolean secret){
+        if (!secret) return System.console().readLine();
+        return new String(System.console().readPassword());
+    }
+
+    @Override
+    public void configChanged() {
+
     }
 }

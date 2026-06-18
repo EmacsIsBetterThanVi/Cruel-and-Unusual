@@ -108,7 +108,11 @@ public final class ModLoader {
             }
             fr.close();
             JSONObject jsonObject = new JSONObject(s.toString());
-            tm = ((TortureMod) loadClass(modBasePath + name, name + "." + name).getDeclaredConstructors()[0].newInstance(this, jsonObject, modBasePath + name + "/", name));
+            if (jsonObject.optString("classPath")!=null)
+               tm = ((TortureMod) loadClass(modBasePath + name, jsonObject.getString("classPath") + "." + name).getDeclaredConstructors()[0].newInstance(this, jsonObject, modBasePath + name + "/", jsonObject.getString("classPath")));
+            else {
+                tm = new jsonTortureMod(this, jsonObject, modBasePath+name+"/", "");
+            }
         } catch (Exception ignored){}
         try {
             if (tm != null) {
@@ -124,4 +128,5 @@ public final class ModLoader {
     public TortureMod[] getMods() {
         return mods.toArray(new TortureMod[0]);
     }
+
 }

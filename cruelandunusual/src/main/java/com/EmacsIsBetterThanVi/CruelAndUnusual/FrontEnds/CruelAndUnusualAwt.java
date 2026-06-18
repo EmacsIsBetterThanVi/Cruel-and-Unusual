@@ -168,11 +168,21 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
         awtPrompt.dispose();
         return awtPrompt.tf.getText();
     }
+
+    @Override
+    public String prompt(String p, boolean secret) {
+        AwtPrompt awtPrompt = new AwtPrompt(p, secret);
+        //noinspection StatementWithEmptyBody
+        while (!awtPrompt.done);
+        awtPrompt.dispose();
+        return awtPrompt.tf.getText();
+    }
 }
 class AwtPrompt {
     public Frame f;
     public TextField tf;
     public volatile boolean done;
+    public JPasswordField pw;
     public AwtPrompt(String p){
         f = new Frame(p);
         f.add(new Label(p));
@@ -185,6 +195,24 @@ class AwtPrompt {
             }
         });
         f.add(tf);
+        f.setSize(400, 100);
+        f.setVisible(true);
+        f.setAutoRequestFocus(true);
+    }
+    public AwtPrompt(String p, boolean secret){
+        f = new Frame(p);
+        f.add(new Label(p));
+        done=false;
+        pw = new JPasswordField(20);
+        tf = new TextField();
+        pw.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tf.setText(new String(pw.getPassword()));
+                done=true;
+            }
+        });
+        f.add(pw);
         f.setSize(400, 100);
         f.setVisible(true);
         f.setAutoRequestFocus(true);

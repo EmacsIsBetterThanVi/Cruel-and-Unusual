@@ -109,7 +109,17 @@ public class CruelAndUnusualLwjgl implements CruelAndUnusualFrontEnd{
 
     @Override
     public String prompt(String p) {
+        return prompt(p, false);
+    }
+
+    @Override
+    public String prompt(String p, boolean secret) {
         return "";
+    }
+
+    @Override
+    public void configChanged() {
+
     }
 //    public void drawPixel(int y, int x, int red, int green, int blue){
 //        if (x>=720) return;

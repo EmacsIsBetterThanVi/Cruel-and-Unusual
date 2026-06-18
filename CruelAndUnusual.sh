@@ -9,9 +9,9 @@ if [[ $1 == "UpdateVersion" ]]; then
   sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" pom.xml
   sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" cruelandunusual/pom.xml
   sed -i "s/<version>$2.$3.$4/<version>$5.$6.$7/" morkborgrules/pom.xml
-  sed -i "s/int major = $2/int major = $5/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
-  sed -i "s/int minor = $3/int minor = $6/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
-  sed -i "s/int revision = $4/int revision = $7/" cruelandunusual/src/main/java/com/cruelandunusual/CruelAndUnusual.java
+  sed -i "s/int major = $2/int major = $5/" cruelandunusual/src/main/java/com/EmacsIsBetterThanVi/CruelAndUnusual/CruelAndUnusual.java
+  sed -i "s/int minor = $3/int minor = $6/" cruelandunusual/src/main/java/com/EmacsIsBetterThanVi/CruelAndUnusual/CruelAndUnusual.java
+  sed -i "s/int revision = $4/int revision = $7/" cruelandunusual/src/main/java/com/EmacsIsBetterThanVi/CruelAndUnusual/CruelAndUnusual.java
   exit
 fi
 if [[ $1 == "verbose" ]]; then
@@ -70,6 +70,13 @@ if [[ $1 == "update" ]]; then
 fi
 if [[ $1 == "build" ]]; then
   [[ $2 == "build" ]] && shift
+  wget -nc https://emacsisbetterthanvi.github.io/AccountLib-current-jar-with-dependencies.jar -O ./AccountLib-current.jar && mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file \
+                                                                                                                             -Dfile=./AccountLib-current.jar \
+                                                                                                                             -DgroupId=com.EmacsIsBetterThanVi \
+                                                                                                                             -DartifactId=AccountLib \
+                                                                                                                             -Dversion=current \
+                                                                                                                             -Dpackaging=jar \
+                                                                                                                             -DlocalRepositoryPath=cruelandunusual/lib && mvn clean install -U 
   $VERBOSE && echo "Entering build directory"
   cd cruelandunusual
    if [[ $? != 0 ]]; then

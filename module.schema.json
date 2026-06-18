@@ -5,6 +5,55 @@
   "description": "A Cruel and Unusual Module",
   "type": "object",
   "properties": {
+    "options":{
+      "description": "The options provided by the module",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the option",
+            "type": "string"
+          },
+          "TYPE": {
+            "description": "The type of the option",
+            "type": "string",
+            "enum": ["string","bool","int","float","enum","array"]
+          },
+          "values": {
+            "description": "Used for the options in enum, the type for array, or the clamp values for int",
+            "type": "object",
+            "properties": {
+              "TYPE":{
+                "description": "The type in the array",
+                "type": "string"
+              },
+              "min":{
+                "description": "The minimum value for an int or float",
+                "type": "number"
+              },
+              "max":{
+                "description": "The maximum value for an int or float",
+                "type": "number"
+              }
+            }
+          },
+          "default": {
+            "description": "The default value of the option",
+            "type": "string"
+          },
+          "key": {
+            "description": "The key of the option in the user config",
+            "type": "string"
+          }
+        },
+        "required": ["name", "TYPE", "key"]
+      }
+    },
+    "classPath": {
+      "description": "The classPath of the module",
+      "type": "string"
+    },
     "modName": {
       "description": "The display name of the module",
       "type": "string"
