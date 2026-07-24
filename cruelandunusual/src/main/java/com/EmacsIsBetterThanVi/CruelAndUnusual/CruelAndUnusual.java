@@ -49,6 +49,8 @@ public final class CruelAndUnusual {
     public static JSONObject config;
     public static Map<TortureMod, List<JSONObject>> options; // <Mod, List<Option>>
     public static ModLoader systemModLoader;
+    public static JSONObject oldConfig;
+
     // API METHODS
     public static UnusualCreature createCreature(UnusualCreature type){
         try {
@@ -193,7 +195,7 @@ public final class CruelAndUnusual {
                     fw.write(config.toString());
                     fw.close();
                 }
-                if (front == 0){ // Only load prefered front end if a specific one was not provided
+                if (front == 0){ // Only load preferred front end if a specific one was not provided
                     front = config.getInt("PreferedFrontEnd");
                     if (front == 2) frontEnd = new CruelAndUnusualLwjgl();
                     if (front == 1) frontEnd = new CruelAndUnusualAwt();
@@ -206,6 +208,7 @@ public final class CruelAndUnusual {
                 buildConfig();
             }
         }
+        oldConfig=new JSONObject(config.toString());
         if (config.getBoolean("UseAccountLib")) {
             try {
                 AccountLib.connect();

@@ -1,5 +1,7 @@
 package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
+import org.json.JSONObject;
+
 public interface CruelAndUnusualFrontEnd {
     void run();
     void INIT();

@@ -9,8 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.EmacsIsBetterThanVi.CruelAndUnusual.API.PALLET.handlePallet;
-import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.config;
-import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.options;
+import static com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual.*;
 
 public class OptionsMenu implements CruelScreen{
     UnusualFont font;
@@ -96,13 +95,17 @@ public class OptionsMenu implements CruelScreen{
         if (MOUSE.inRect(font.getRect(0, 0, "Back"))){
             font.write(0, 0, "Back", handlePallet(255, 0, 0));
             if (MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)) {
-                try {
-                    FileWriter fw = new FileWriter(System.getProperty("user.home") + "/.emacsisbetterthanvi/cruelandunusual/config");
-                    fw.write(config.toString());
-                    fw.close();
-                } catch (Exception ignored) {}
+                if (!config.toString().equals(oldConfig.toString())) {
+                    try {
+                        FileWriter fw = new FileWriter(System.getProperty("user.home") + "/.emacsisbetterthanvi/cruelandunusual/config");
+                        fw.write(config.toString());
+                        fw.close();
+                    } catch (Exception ignored) {
+                    }
+                }
                 CruelAndUnusual.frontEnd.configChanged();
                 CruelAndUnusual.screen = Screen.TITLE_INIT;
+                oldConfig=new JSONObject(config.toString());
             }
         }
         int x=0;
@@ -126,8 +129,9 @@ public class OptionsMenu implements CruelScreen{
                         if (MOUSE.inRect(font.getRect(260, 45 + (y-scroll) * 20, asString(getValue(opt), opt.getString("TYPE"), opt.optJSONObject("values", new JSONObject()).optString("TYPE"))))){
                             switch (opt.getString("TYPE")){
                                 case "bool":
-                                    if(MOUSE.isMouseJustDown(MOUSE.LEFT_MOUSE)){
+                                    if(MOUSE.isMouseDown(MOUSE.LEFT_MOUSE) && (opt.optLong("LAST", 0)+200)<System.currentTimeMillis()){
                                         setValue(opt, !(Boolean) getValue(opt));
+                                        opt.put("LAST", System.currentTimeMillis());
                                     }
                                     break;
                             }

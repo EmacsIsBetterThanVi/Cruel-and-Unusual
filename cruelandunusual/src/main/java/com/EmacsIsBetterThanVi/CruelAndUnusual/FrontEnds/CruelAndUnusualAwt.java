@@ -2,6 +2,7 @@ package com.EmacsIsBetterThanVi.CruelAndUnusual.FrontEnds;
 
 import com.EmacsIsBetterThanVi.CruelAndUnusual.CruelAndUnusual;
 import com.EmacsIsBetterThanVi.CruelAndUnusual.Screen;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
     public String toString(){
         return "AWT";
     }
+
     @Override
     public void run() {
         while (!shouldClose) {
@@ -26,12 +28,11 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
         }
     }
     public void configChanged(){
-        if (config.getBoolean("Fullscreen")) {
-            w.setUndecorated(true);
-            w.setExtendedState(Frame.MAXIMIZED_BOTH);
-        } else {
-            w.setResizable(true);
-            w.setSize(720, 650);
+        System.out.println(config);
+        System.out.println(oldConfig);
+        if (config.getBoolean("Fullscreen")!=oldConfig.getBoolean("Fullscreen")) {
+            w.dispose();
+            INIT();
         }
     }
     @Override
@@ -60,6 +61,7 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+        w.setResizable(false);
         if (config.getBoolean("Fullscreen")) {
             w.setUndecorated(true);
             w.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -68,7 +70,6 @@ public class CruelAndUnusualAwt implements CruelAndUnusualFrontEnd {
             w.setSize(720, 650);
         }
         w.setVisible(true);
-        w.setResizable(false);
         px = new PixelCanvasAwt();
         w.setLayout(new BorderLayout());
         w.add(px, BorderLayout.CENTER);
